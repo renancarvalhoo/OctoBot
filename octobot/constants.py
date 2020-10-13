@@ -62,10 +62,12 @@ FORCE_ASYNCIO_DEBUG_OPTION = False
 # (local sources, python site-packages, ...)
 OCTOBOT_FOLDER = pathlib.Path(__file__).parent.absolute()
 CONFIG_FOLDER = f"{OCTOBOT_FOLDER}/config"
+USER_LOCAL_CONFIG_FOLDER = "config"
 SCHEMA = "schema"
 CONFIG_FILE_SCHEMA = f"{CONFIG_FOLDER}/config_{SCHEMA}.json"
 DEFAULT_CONFIG_FILE = f"{CONFIG_FOLDER}/default_config.json"
 LOGGING_CONFIG_FILE = f"{CONFIG_FOLDER}/logging_config.ini"
+USER_LOCAL_LOGGING_CONFIG_FILE = f"{USER_LOCAL_CONFIG_FOLDER}/logging_config.ini"
 LOG_FILE = f"{LOGS_FOLDER}/{PROJECT_NAME}.log"
 
 # Optimizer

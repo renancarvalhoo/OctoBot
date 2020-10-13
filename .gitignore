@@ -112,6 +112,7 @@ creator_temp/
 
 # config
 config/config.json
+config/logging_config.ini
 
 # Specific config
 config/evaluator_config.json

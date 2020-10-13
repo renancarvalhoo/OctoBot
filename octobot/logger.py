@@ -15,6 +15,7 @@
 #  License along with this library.
 import logging
 import os
+import shutil
 import traceback
 import logging.config as config
 
@@ -47,8 +48,7 @@ def init_logger():
     try:
         if not os.path.exists(constants.LOGS_FOLDER):
             os.mkdir(constants.LOGS_FOLDER)
-
-        config.fileConfig(constants.LOGGING_CONFIG_FILE)
+        _load_logger_config()
         # overwrite BOT_CHANNEL_LOGGER to apply global logging configuration
         global BOT_CHANNEL_LOGGER
         BOT_CHANNEL_LOGGER = common_logging.get_logger("OctoBot Channel")
@@ -74,6 +74,20 @@ def init_logger():
 
     sys.excepthook = _log_uncaught_exceptions
     return logger
+
+
+def _load_logger_config():
+    try:
+        # use local logging file to allow users to customize the log level
+        if not os.path.isfile(constants.USER_LOCAL_LOGGING_CONFIG_FILE):
+            if not os.path.exists(constants.USER_LOCAL_CONFIG_FOLDER):
+                os.mkdir(constants.USER_LOCAL_CONFIG_FOLDER)
+            shutil.copyfile(constants.LOGGING_CONFIG_FILE, constants.USER_LOCAL_LOGGING_CONFIG_FILE)
+        config.fileConfig(constants.USER_LOCAL_LOGGING_CONFIG_FILE)
+    except Exception as ex:
+        config.fileConfig(constants.LOGGING_CONFIG_FILE)
+        logging.getLogger("Logging Configuration").warning(f"Impossible to initialize local logging configuration file,"
+                                                           f" using default one. {ex}")
 
 
 async def init_exchange_chan_logger(exchange_id):
